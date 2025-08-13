@@ -1,6 +1,7 @@
+from typing import Optional
 from uuid import UUID, uuid4
 
-from sqlmodel import Field, SQLModel, Column, DECIMAL
+from sqlmodel import Field, SQLModel, Column, DECIMAL, Relationship
 
 
 class Product(SQLModel, table=True):
@@ -19,3 +20,6 @@ class Product(SQLModel, table=True):
     category_id: UUID | None = Field(index=True, nullable=False, foreign_key="categories.id")
 
     # Relationship creation  # this will have 1 - to - many relationship
+    cart_items: Optional["CartItem"] = Relationship(back_populates="product")
+    category : Optional["Category"] = Relationship(back_populates="products")
+    items: Optional["OrderItem"] = Relationship(back_populates="product")

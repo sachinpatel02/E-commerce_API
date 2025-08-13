@@ -17,4 +17,5 @@ class Order(SQLModel, table=True):
     user_id: UUID = Field(foreign_key="users.id")
 
     # Relationship creation
-
+    user : Optional["User"] = Relationship(back_populates="orders")
+    payment: Optional["Payment"] = Relationship(back_populates="orders")

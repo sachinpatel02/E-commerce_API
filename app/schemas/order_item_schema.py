@@ -1,4 +1,6 @@
-from sqlmodel import SQLModel, Field, Column, DECIMAL
+from typing import Optional
+
+from sqlmodel import SQLModel, Field, Column, DECIMAL, Relationship
 from uuid import UUID, uuid4
 
 
@@ -16,4 +18,5 @@ class OrderItem(SQLModel, table=True):
     product_id: UUID = Field(foreign_key="products.id")
 
     # Relationship creation
+    product : Optional["Product"] = Relationship(back_populates="items")
 

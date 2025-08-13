@@ -1,5 +1,6 @@
+from typing import Optional
 
-from sqlmodel import Field, SQLModel
+from sqlmodel import Field, SQLModel,Relationship
 from uuid import UUID, uuid4
 
 class Address(SQLModel, table=True):
@@ -20,4 +21,4 @@ class Address(SQLModel, table=True):
     user_id: UUID = Field(foreign_key="users.id")
 
     # Relationship creation
-
+    user : Optional["User"] = Relationship(back_populates="addresses")

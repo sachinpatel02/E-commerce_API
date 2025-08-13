@@ -8,7 +8,8 @@ from app.models.user_model import User, UserIn
 user_router = APIRouter(prefix="/users", tags=["users"])
 
 
-@user_router.post("/", response_model=User, status_code=status.HTTP_201_CREATED )
+# User Creation
+@user_router.post("/", response_model=User, status_code=status.HTTP_201_CREATED)
 async def register(user_in: UserIn, session: Session = Depends(create_session)):
     """
     # Register a new user
@@ -42,10 +43,14 @@ async def register(user_in: UserIn, session: Session = Depends(create_session)):
                 detail="🚨Email already registered.",
             )
         new_user = await create_user(session, user_in)
-        return {"message": "✅New user created", "user" : new_user}
+        print("✅New User created")
+        return new_user
 
+    except HTTPException as e:
+        raise
     except Exception as error:
-        print("⁉️Server Error: Cannot create new user", error.__doc__)
+        print("⁉️Server Error: Cannot create new user", error)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Something went wrong...",
         )

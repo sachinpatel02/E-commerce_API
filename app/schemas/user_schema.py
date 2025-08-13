@@ -1,4 +1,4 @@
-from sqlmodel import SQLModel, Field
+from sqlmodel import SQLModel, Field, Relationship
 from uuid import UUID, uuid4
 from pydantic import EmailStr
 from datetime import datetime, timezone
@@ -20,4 +20,7 @@ class User(SQLModel, table=True):
     is_admin: bool = Field(default=False, nullable=False)
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc), nullable=False)
 
-
+    #Relationships
+    addresses : Optional["Address"]= Relationship(back_populates="user")
+    orders : Optional["Order"]= Relationship(back_populates="user")
+    carts: Optional["Cart"] = Relationship(back_populates="user")

@@ -10,7 +10,6 @@ from app.schemas.categories_schema import Category
 from app.schemas.order_item_schema import OrderItem
 from app.schemas.payments_schema import Payment
 from app.schemas.product_schema import Product
-from app.schemas import relationships
 
 # Database URL from your configuration
 DATABASE_URL = configs.DATABASE_URL

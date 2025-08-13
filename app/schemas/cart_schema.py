@@ -1,4 +1,6 @@
-from sqlmodel import SQLModel, Field
+from typing import Optional
+
+from sqlmodel import SQLModel, Field, Relationship
 from uuid import UUID, uuid4
 
 
@@ -13,4 +15,5 @@ class Cart(SQLModel, table=True):
     user_id: UUID = Field(foreign_key="users.id", unique=True)
 
     # Relationship
-
+    user: Optional["User"] = Relationship(back_populates="carts")
+    items: Optional["CartItem"] = Relationship(back_populates="cart")
