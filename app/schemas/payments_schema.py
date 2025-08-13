@@ -1,4 +1,4 @@
-from sqlmodel import SQLModel, Field, Relationship, Column, DECIMAL
+from sqlmodel import SQLModel, Field, Column, DECIMAL
 from uuid import UUID, uuid4
 from datetime import datetime, timezone
 
@@ -20,4 +20,4 @@ class Payment(SQLModel, table=True):
     order_id: UUID = Field(foreign_key="orders.id")
 
     # Relationships
-    order: "Order" = Relationship(back_populates="payment")
+

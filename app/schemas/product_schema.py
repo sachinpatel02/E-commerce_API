@@ -1,6 +1,6 @@
-from sqlalchemy.orm import Relationship
-from sqlmodel import Field, SQLModel, Column, DECIMAL
 from uuid import UUID, uuid4
+
+from sqlmodel import Field, SQLModel, Column, DECIMAL
 
 
 class Product(SQLModel, table=True):
@@ -18,6 +18,4 @@ class Product(SQLModel, table=True):
     # foreign keys
     category_id: UUID | None = Field(index=True, nullable=False, foreign_key="categories.id")
 
-    # Relationship creation
-    # this will have 1 - to - many relationship
-    category: "Category" = Relationship(back_populates="products")
+    # Relationship creation  # this will have 1 - to - many relationship

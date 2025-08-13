@@ -1,4 +1,4 @@
-from sqlmodel import Field, SQLModel, Relationship
+from sqlmodel import Field, SQLModel
 from uuid import UUID, uuid4
 
 
@@ -14,4 +14,4 @@ class Category(SQLModel, table=True):
     # Relationship creation
     # This will have 1 - to - many Relationship
     # one Category can have multiple Products
-    products: list["Product"] = Relationship(back_populates="category")
+

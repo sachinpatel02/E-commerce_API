@@ -1,4 +1,4 @@
-from sqlmodel import SQLModel, Field, Relationship, Column, DECIMAL
+from sqlmodel import SQLModel, Field, Column, DECIMAL
 from uuid import UUID, uuid4
 
 
@@ -16,5 +16,4 @@ class OrderItem(SQLModel, table=True):
     product_id: UUID = Field(foreign_key="products.id")
 
     # Relationship creation
-    order: "Order" = Relationship(back_populates="items")
-    product: "Product" = Relationship()  # no back_populates as there isn't any Rel field in Products for OrderItems
+

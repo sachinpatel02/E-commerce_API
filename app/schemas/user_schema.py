@@ -1,4 +1,4 @@
-from sqlmodel import SQLModel, Field, Relationship
+from sqlmodel import SQLModel, Field
 from uuid import UUID, uuid4
 from pydantic import EmailStr
 from datetime import datetime, timezone
@@ -21,5 +21,4 @@ class User(SQLModel, table=True):
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc), nullable=False)
 
     # Relationship
-    orders: list["Order"] = Relationship(back_populates="user")
-    addresses: list["Address"] = Relationship(back_populates="user")
+

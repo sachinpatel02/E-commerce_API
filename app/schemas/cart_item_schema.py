@@ -12,9 +12,7 @@ class CartItem(SQLModel, table=True):
     quantity: int
 
     # Foreign keys
-    cart_id: int = Field(foreign_key="carts.id")
+    cart_id: UUID = Field(foreign_key="carts.id")
     product_id: UUID = Field(foreign_key="products.id")
 
     # Relationships
-    cart: "Cart" = Relationship(back_populates="items")
-    product: "Product" = Relationship()
