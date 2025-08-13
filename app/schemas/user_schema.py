@@ -20,5 +20,4 @@ class User(SQLModel, table=True):
     is_admin: bool = Field(default=False, nullable=False)
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc), nullable=False)
 
-    # Relationship
 

@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from .db.session import create_db_and_tables
-
+from app.api.user_router import user_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -13,9 +13,11 @@ async def lifespan(app: FastAPI):
     print("🛑 Application shutting down...")
 
 
-app = FastAPI(lifespan=lifespan)
+app = FastAPI(lifespan=lifespan, prefix="/api")
 
 
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
+
+app.include_router(user_router)
