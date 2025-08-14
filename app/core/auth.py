@@ -8,7 +8,7 @@ from sqlmodel import Session
 
 from app.crud.crud import get_user_by_email
 from app.db.session import create_session
-from .config import configs
+from app.core.config import configs
 
 # loading secrets from dotenv
 SECRET_KEY = configs.SECRET_KEY

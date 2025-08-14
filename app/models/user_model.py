@@ -12,3 +12,8 @@ class UserRegister(User):
 
 class UserLogin(User):
     password: str
+
+class UserProfile(User):
+    first_name: str
+    last_name: str
+    mobile_number: str
