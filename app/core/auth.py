@@ -1,14 +1,15 @@
 from datetime import datetime, timedelta, timezone
+from typing import Annotated
 
 from fastapi import Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer
+from fastapi.security import OAuth2PasswordBearer, HTTPBearer, HTTPAuthorizationCredentials
 from jose import jwt, JWTError
-from sqlalchemy.sql.annotation import Annotated
+from pydantic import EmailStr
 from sqlmodel import Session
 
+from app.core.config import configs
 from app.crud.crud import get_user_by_email
 from app.db.session import create_session
-from app.core.config import configs
 
 # loading secrets from dotenv
 SECRET_KEY = configs.SECRET_KEY
@@ -28,21 +29,21 @@ def generate_token(data: dict):
 
 
 # get current user
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
 
 def verify_current_user(token: Annotated[str, Depends(oauth2_scheme)], session: Session = Depends(create_session)):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        email: str = payload.get("sub")
-        if email is None:
+        username: EmailStr = payload.get("sub")
+        if username is None:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="🚨Token is missing required claims.",
                 headers={"WWW-Authenticate": "Bearer"},
             )
 
-        user = get_user_by_email(session, email)
+        user = get_user_by_email(session, username)
         if not user:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -56,3 +57,22 @@ def verify_current_user(token: Annotated[str, Depends(oauth2_scheme)], session: 
             detail="🚨Invalid or expired token.",
             headers={"WWW-Authenticate": "Bearer"},
         )
+
+
+# user validation using token, from SwaggerUI's built-in login functionality
+bearer_schema = HTTPBearer()
+
+
+def user_validation_token(creds: Annotated[HTTPAuthorizationCredentials, Depends(bearer_schema)]):
+    token = creds.credentials
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username: str = payload.get("sub")
+        if username is None:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="User not found.",
+            )
+        return username
+    except JWTError:
+        raise

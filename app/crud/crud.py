@@ -1,8 +1,8 @@
-from sqlmodel import Session, select
+from sqlmodel import Session, select, update
 from pydantic import EmailStr
 
 from app.core.security import get_password_hash
-from app.models.user_model import UserRegister
+from app.models.user_model import UserRegister, UserUpdate
 from app.schemas.user_schema import User
 
 # fetch user by email id
@@ -20,3 +20,13 @@ async def create_user(session: Session, user_in: UserRegister):
     session.commit()
     session.refresh(new_user)
     return new_user
+
+# update user
+async def update_user(session: Session, user_in: UserUpdate, email: EmailStr):
+    statement = update(User).where(User.email == email).values(
+        **user_in.model_dump(exclude={"password"})
+    )
+    session.exec(statement)
+    session.commit()
+    session.refresh(user)
+    return user
