@@ -8,11 +8,11 @@ from app.crud.crud import get_user_by_email, create_user
 from app.db.session import create_session
 from app.models.user_model import User, UserRegister
 
-user_router = APIRouter(prefix="/users", tags=["users"])
+auth_router = APIRouter(prefix="/auth", tags=["users", "auth"])
 
 
 # User Creation
-@user_router.post(
+@auth_router.post(
     "/", response_model=User,
     status_code=status.HTTP_201_CREATED,
     description="Create a new user",
@@ -65,7 +65,7 @@ async def register(user_in: UserRegister, session: Session = Depends(create_sess
 
 
 # User Login
-@user_router.post(
+@auth_router.post(
     "/login",
     status_code=status.HTTP_200_OK,
     description="Login Route",

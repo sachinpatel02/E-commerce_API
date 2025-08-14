@@ -28,7 +28,7 @@ def generate_token(data: dict):
 
 
 # get current user
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/users/login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login")
 
 
 def verify_current_user(token: Annotated[str, Depends(oauth2_scheme)], session: Session = Depends(create_session)):
