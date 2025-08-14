@@ -22,9 +22,10 @@ async def create_user(session: Session, user_in: UserRegister):
     return new_user
 
 # update user
-async def update_user(session: Session, user_in: UserUpdate, email: EmailStr):
-    statement = update(User).where(User.email == email).values(
-        **user_in.model_dump(exclude={"password"})
+async def update_user(session: Session, user, user_in: UserUpdate):
+    values = {k:v for k, v in user_in.model_dump().items() if v is not None}
+    statement = update(User).where(User.email == user.email).values(
+        **values
     )
     session.exec(statement)
     session.commit()
