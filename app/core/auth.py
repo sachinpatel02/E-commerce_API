@@ -29,6 +29,7 @@ def generate_token(data: dict):
 
 
 # get current user
+# ➽ this works with credentials
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
 
@@ -60,6 +61,7 @@ def verify_current_user(token: Annotated[str, Depends(oauth2_scheme)], session: 
 
 
 # user validation using token, from SwaggerUI's built-in login functionality
+# ➽ this works with token
 bearer_schema = HTTPBearer()
 
 
