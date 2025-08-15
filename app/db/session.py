@@ -1,15 +1,14 @@
-from sqlmodel import create_engine, Session, SQLModel
+"""
+session.py
+    * create a database engine
+    * create database and tables using schemas
+    * create a session for CRUD operations on database
+"""
+
 from sqlalchemy.exc import SQLAlchemyError
+from sqlmodel import create_engine, Session, SQLModel
+
 from app.core.config import configs
-from app.schemas.address_schema import Address
-from app.schemas.user_schema import User
-from app.schemas.order_schema import Order
-from app.schemas.cart_schema import Cart
-from app.schemas.cart_item_schema import CartItem
-from app.schemas.categories_schema import Category
-from app.schemas.order_item_schema import OrderItem
-from app.schemas.payments_schema import Payment
-from app.schemas.product_schema import Product
 
 # Database URL from your configuration
 DATABASE_URL = configs.DATABASE_URL
@@ -30,6 +29,7 @@ def create_db_and_tables():
     except Exception as e:
         print(f"❌ Unexpected error during table creation: {str(e)}")
         raise
+
 
 def create_session():
     # Create a session for database operations

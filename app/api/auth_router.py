@@ -1,3 +1,10 @@
+"""
+auth_router.py:
+    1. Register new user
+    2. Login
+
+"""
+
 from fastapi import APIRouter, status, Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlmodel import Session
@@ -72,6 +79,17 @@ async def register(user_in: UserRegister, session: Session = Depends(create_sess
     response_description="❇️Successfully logged in",
 )
 async def login(session: Session = Depends(create_session), user_in: OAuth2PasswordRequestForm = Depends()):
+    """
+    # Login Route
+    **:input:**
+        - email: EmailStr
+        - password:
+    **:output:**
+        - email: EmailStr
+        - first_name
+        - last_name
+        - mobile_number
+    """
     try:
         email = user_in.username
         password = user_in.password

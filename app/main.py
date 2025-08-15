@@ -1,3 +1,9 @@
+"""
+main.py
+    * initiate database connection
+    * create app instance
+    * include api routers
+"""
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
@@ -15,11 +21,5 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan, prefix="/api")
-
-
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
-
 app.include_router(auth_router)
 app.include_router(user_router)

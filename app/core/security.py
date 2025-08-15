@@ -1,3 +1,10 @@
+"""
+security.py
+    * handles Encryption - Decryption
+    * get_password_hash(password): pass password, and it will return hashed password
+    * verify_password(password, hashed): decrypt hashed password and compare it with plain password
+"""
+
 from passlib.context import CryptContext
 
 # using bcrypt for cryptography
