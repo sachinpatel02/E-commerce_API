@@ -9,6 +9,16 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlmodel import create_engine, Session, SQLModel
 
 from app.core.config import configs
+# below imports are IMP for SQLModel to create/fetch database schemas
+from app.schemas.user_schema import User
+from app.schemas.order_schema import Order
+from app.schemas.order_item_schema import OrderItem
+from app.schemas.cart_schema import Cart
+from app.schemas.cart_item_schema import CartItem
+from app.schemas.address_schema import Address
+from app.schemas.payments_schema import Payment
+from app.schemas.categories_schema import Category
+from app.schemas.product_schema import Product
 
 # Database URL from your configuration
 DATABASE_URL = configs.DATABASE_URL

@@ -70,3 +70,19 @@ async def update_profile(user_data: UserUpdate, username: EmailStr = Depends(use
         )
     updated_user = await update_user(session, user, user_data)
     return updated_user
+
+
+# get user by email - 🛑Admin Access required
+@user_router.get("/find/", response_model=UserProfile, status_code=status.HTTP_200_OK)
+async def get_all_users(q: EmailStr, session: Session = Depends(create_session),
+                        username: EmailStr = Depends(user_validation_token)):
+    user = await get_user_by_email(email=username, session=session)
+    # check for admin access
+    if not user or not user.is_admin:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="⚠️Admin access required!"
+        )
+    # get all users
+    find_user = await get_user_by_email(email=q, session=session)
+    return find_user
